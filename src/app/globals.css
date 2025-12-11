@@ -2,22 +2,13 @@
 
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --radius: 1rem; /* Lebih bulat biar lebih "asik" */
-
-  /* Definisi Warna Solid */
-  --color-kobalt: #2563EB;   /* Blue 600 - Lebih terang dari sebelumnya */
-  --color-amethyst: #9333EA; /* Purple 600 */
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    
-    /* Variable Gradasi */
-    --gradient-start: #2563EB; /* Kobalt Blue */
-    --gradient-mid: #7C3AED;   /* Violet */
-    --gradient-end: #DB2777;   /* Pink/Magenta dikit biar "Fun" */
+    --background: 0 0% 100%; /* Putih Mutlak */
+    --foreground: 222.2 84% 4.9%; /* Hampir Hitam */
   }
 
   body {
@@ -26,19 +17,41 @@
   }
 }
 
-/* Utility Class untuk Gradasi Weatso (Lebih Pop-Up) */
-@utility bg-weatso-gradient {
-  background-image: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid));
-}
+@layer utilities {
+  /* Gradasi Khas Weatso: Biru ke Ungu */
+  .bg-gradient-weatso {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600;
+  }
+  
+  .text-gradient-weatso {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600;
+  }
 
-@utility bg-weatso-subtle {
-  /* Background halus untuk section */
-  background-image: linear-gradient(180deg, #eff6ff 0%, #faf5ff 100%);
-}
+  /* Border halus dengan gradasi saat hover */
+  .border-gradient-hover {
+    position: relative;
+    background: white;
+    z-index: 1;
+  }
+  
+  .border-gradient-hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit; 
+    padding: 2px; /* Ketebalan border */
+    background: linear-gradient(to right, #2563EB, #9333EA); 
+    -webkit-mask: 
+       linear-gradient(#fff 0 0) content-box, 
+       linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
 
-@utility text-weatso-gradient {
-  background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  .border-gradient-hover:hover::before {
+    opacity: 1;
+  }
 }
