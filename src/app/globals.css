@@ -15,6 +15,25 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important; /* Matikan native smooth scroll agar Lenis bekerja */
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
 }
 
 @layer utilities {
@@ -25,6 +44,25 @@
   
   .text-gradient-weatso {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600;
+  }
+
+  /* Animasi Orbit */
+  .orbit-container {
+    animation: orbit-rotate 40s linear infinite;
+  }
+  
+  .orbit-item {
+    animation: orbit-counter-rotate 40s linear infinite;
+  }
+
+  @keyframes orbit-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes orbit-counter-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); } /* Menjaga icon tetap tegak */
   }
 
   /* Border halus dengan gradasi saat hover */
@@ -55,3 +93,4 @@
     opacity: 1;
   }
 }
+
