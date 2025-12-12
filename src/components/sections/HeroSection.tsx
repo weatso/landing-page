@@ -1,104 +1,158 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 import { Code2, Monitor, Cuboid, HeartHandshake } from "lucide-react";
 
-const HeroSection: React.FC = () => {
+// --- KOMPONEN ORBIT ITEM ---
+const OrbitItem = ({ 
+  icon: Icon, 
+  color, 
+  label, 
+  progress, 
+  offset, 
+  radiusX = 260, // Lebar orbit (Kiri-Kanan)
+  radiusY = 70   // Tinggi orbit (Atas-Bawah) -> Semakin kecil semakin gepeng (Eclipse)
+}: { 
+  icon: any, color: string, label: string, progress: MotionValue<number>, offset: number, radiusX?: number, radiusY?: number 
+}) => {
+  
+  // Konversi progress scroll ke sudut (radian)
+  const angle = useTransform(progress, (val) => (val + offset) * (Math.PI / 180));
+  
+  // Posisi X dan Y (Matematika Lingkaran)
+  const x = useTransform(angle, (a) => Math.cos(a) * radiusX);
+  const y = useTransform(angle, (a) => Math.sin(a) * radiusY);
+  
+  // Scale: Membesar saat di depan (Y positif), mengecil saat di belakang (Y negatif)
+  const scale = useTransform(y, [-radiusY, radiusY], [0.75, 1.25]);
+  
+  // --- KUNCI EFEK 3D (OCCLUSION) ---
+  // Kita mapping posisi Y ke Z-Index.
+  // Weatso Logo nanti kita set di z-index: 20.
+  // Jadi range z-index item harus melewati angka 20 (misal: 10 s/d 30).
+  const zIndex = useTransform(y, [-radiusY, radiusY], [10, 30]);
+  
+  // Opacity biar makin dramatis (belakang agak pudar)
+  const opacity = useTransform(y, [-radiusY, radiusY], [0.5, 1]);
+
   return (
-    <section className="relative w-full min-h-screen flex flex-col md:flex-row items-center justify-center bg-white px-6 md:px-12 pt-20 overflow-hidden">
-      
-      {/* Background Decor: Mesh Gradient Halus */}
+    <motion.div
+      style={{ x, y, scale, zIndex, opacity }}
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+    >
+      <div className="relative group">
+        {/* Icon Circle */}
+        <div className={`w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-xl border border-gray-100 flex items-center justify-center transition-all hover:border-blue-300 group-hover:scale-110`}>
+          <Icon className={color} size={32} strokeWidth={1.5} />
+        </div>
+        
+        {/* Label (Tooltip) */}
+        <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow-xl pointer-events-none">
+          {label}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const HeroSection: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+  
+  // Kontrol Rotasi: 0px scroll = 0 derajat, 1200px scroll = 360 derajat
+  const rawAngle = useTransform(scrollY, [0, 1200], [0, 360]);
+  const smoothAngle = useSpring(rawAngle, { stiffness: 30, damping: 20 });
+
+  return (
+    <section 
+      ref={containerRef} 
+      className="relative w-full min-h-[90vh] flex flex-col md:flex-row items-start justify-center bg-white px-6 md:px-12 pt-20 md:pt-18 overflow-hidden"
+    >
+      {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none opacity-30">
         <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-blue-100/50 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[800px] h-[800px] bg-purple-100/50 rounded-full blur-[120px]" />
       </div>
 
-      {/* KONTEN KIRI: Teks Utama */}
-      <div className="z-10 w-full md:w-1/2 flex flex-col items-start space-y-8 md:pr-10">
+      {/* Teks Kiri */}
+      <div className="z-40 w-full md:w-5/12 flex flex-col items-start space-y-8 md:pr-10 sticky top-32">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8 }}
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-100 bg-blue-50/50 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6">
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-            The Future of Digital Ecosystem
+            Scroll to Explore Ecosystem
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6">
             Weatso <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_auto] animate-gradient">
-              Holding Company.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 animate-gradient bg-[length:200%_auto]">
+              Holding.
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-500 max-w-lg leading-relaxed font-light">
-            Menyatukan inovasi teknologi, skalabilitas produk, dan estetika kreatif dalam satu ekosistem terpadu.
+          <p className="text-lg text-gray-500 max-w-lg leading-relaxed font-light">
+            Sinergi teknologi, produk, dan kreativitas dalam satu poros orbit yang presisi.
           </p>
 
-          <div className="pt-8 flex gap-4">
-            <a href="#ventures" className="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:scale-105 hover:shadow-xl hover:shadow-blue-900/20 transition-all duration-300">
-              Explore Ventures
-            </a>
-            <a href="#contact" className="px-8 py-4 bg-white text-gray-900 border border-gray-200 rounded-full font-bold hover:bg-gray-50 transition-all duration-300">
-              Contact Us
+          <div className="pt-8">
+            <a href="#ventures" className="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:shadow-xl hover:shadow-blue-900/20 transition-all duration-300">
+              Lihat Ventures
             </a>
           </div>
         </motion.div>
       </div>
 
-      {/* KONTEN KANAN: Animasi Orbit 4 Anak Usaha */}
-      <div className="w-full md:w-1/2 h-[500px] md:h-screen flex items-center justify-center relative">
-        {/* Core Circle (Weatso Induk) */}
+      {/* AREA ORBIT 3D */}
+      <div className="w-full md:w-7/12 h-[600px] flex items-center justify-center relative mt-10 md:mt-0">
+        
+        {/* --- PUSAT ORBIT (WEATSO LOGO) --- */}
+        {/* Layer diset ke z-20. Jadi item orbit akan berada di z-10 (belakang) atau z-30 (depan) */}
         <motion.div 
-          initial={{ scale: 0, opacity: 0 }}
+          className="absolute w-32 h-32 md:w-40 md:h-40 bg-white rounded-full shadow-[0_0_60px_-10px_rgba(37,99,235,0.25)] border border-gray-100 flex items-center justify-center z-20"
+          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-white shadow-[0_0_60px_-15px_rgba(37,99,235,0.3)] border border-gray-100 flex items-center justify-center z-20 relative"
+          transition={{ duration: 1 }}
         >
-          <div className="text-center">
-            <span className="font-bold text-2xl md:text-3xl tracking-tighter">WEATSO</span>
-            <div className="w-full h-1 bg-gradient-to-r from-blue-600 to-purple-600 mt-1 rounded-full"></div>
-          </div>
+           <div className="text-center">
+             <span className="font-bold text-2xl tracking-tighter text-gray-900">WEATSO</span>
+             <span className="text-blue-600 text-3xl leading-none">.</span>
+           </div>
         </motion.div>
 
-        {/* Orbit Path 1 (Dashed Line) */}
-        <div className="absolute w-[280px] h-[280px] md:w-[450px] md:h-[450px] rounded-full border border-dashed border-gray-200" />
-        
-        {/* Orbit Container (Berputar) */}
-        <div className="absolute w-[280px] h-[280px] md:w-[450px] md:h-[450px] orbit-container z-10">
+        {/* Garis Lintasan (Visual Only) */}
+        {/* Diputar sedikit (-6 deg) agar terlihat dinamis diagonal */}
+        <div className="absolute w-[520px] h-[140px] border border-dashed border-gray-300/60 rounded-[100%] transform -rotate-6 pointer-events-none z-0" />
+
+        {/* Container Item Orbit */}
+        {/* Transform rotate disamakan dengan garis lintasan agar icon mengikuti garis */}
+        <div className="absolute w-[520px] h-[140px] transform -rotate-6 z-30 pointer-events-none">
           
-          {/* Planet 1: Service (Top) */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 orbit-item">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-xl border border-blue-50 flex items-center justify-center transform hover:scale-110 transition-transform cursor-pointer group">
-              <Code2 className="text-blue-600" size={32} />
-              <div className="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">Weatso Service</div>
-            </div>
-          </div>
+          {/* Item 1: Service (Mulai di 90 derajat / Depan) */}
+          <OrbitItem 
+            icon={Code2} color="text-blue-600" label="Weatso Service" 
+            progress={smoothAngle} offset={90} 
+          />
 
-          {/* Planet 2: Developer (Right) */}
-          <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 orbit-item">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-xl border border-purple-50 flex items-center justify-center transform hover:scale-110 transition-transform cursor-pointer group">
-              <Monitor className="text-purple-600" size={32} />
-              <div className="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">Weatso Developer</div>
-            </div>
-          </div>
+          {/* Item 2: Developer (Mulai di 180 derajat) */}
+          <OrbitItem 
+            icon={Monitor} color="text-purple-600" label="Weatso Developer" 
+            progress={smoothAngle} offset={180} 
+          />
 
-          {/* Planet 3: CO-Labz (Bottom) */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 orbit-item">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-xl border border-pink-50 flex items-center justify-center transform hover:scale-110 transition-transform cursor-pointer group">
-              <Cuboid className="text-pink-600" size={32} />
-              <div className="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">CO-Labz</div>
-            </div>
-          </div>
+          {/* Item 3: CO-Labz (Mulai di 270 derajat / Belakang) */}
+          <OrbitItem 
+            icon={Cuboid} color="text-pink-600" label="CO-Labz" 
+            progress={smoothAngle} offset={270} 
+          />
 
-          {/* Planet 4: Invitin (Left) */}
-          <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 orbit-item">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-xl border border-rose-50 flex items-center justify-center transform hover:scale-110 transition-transform cursor-pointer group">
-              <HeartHandshake className="text-rose-600" size={32} />
-              <div className="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">Invitin</div>
-            </div>
-          </div>
+          {/* Item 4: Invitin (Mulai di 0/360 derajat) */}
+          <OrbitItem 
+            icon={HeartHandshake} color="text-rose-600" label="Invitin" 
+            progress={smoothAngle} offset={0} 
+          />
 
         </div>
       </div>

@@ -1,106 +1,107 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Code2, HeartHandshake, Cuboid, Monitor, ArrowUpRight } from "lucide-react";
+import { 
+  Code2, Monitor, Cuboid, HeartHandshake, ArrowUpRight 
+} from "lucide-react";
 
+// Ganti color dengan className text color yang sesuai
 const ventures = [
   {
     id: "weatso-service",
     name: "Weatso Service",
     category: "IT Consultant",
-    desc: "Software, Web App, & Sistem Informasi Manajemen (SIM/SIA) presisi.",
+    desc: "Transformasi digital presisi. Web App, Software, & Sistem Informasi.",
     icon: Code2,
-    gradient: "from-blue-500 to-cyan-400",
-    logoColor: "text-blue-600"
+    gradient: "from-blue-600 to-indigo-600",
+    textColor: "text-blue-600"
   },
   {
     id: "weatso-developer",
     name: "Weatso Developer",
-    category: "SaaS & Products",
-    desc: "Produk digital B2B berskala masal & layanan subscription.",
+    category: "SaaS Product",
+    desc: "Produk digital B2B siap pakai dengan model lisensi & langganan.",
     icon: Monitor,
-    gradient: "from-purple-600 to-indigo-500",
-    logoColor: "text-purple-600"
+    gradient: "from-purple-600 to-fuchsia-600",
+    textColor: "text-purple-600"
   },
   {
     id: "co-labz",
     name: "CO-Labz",
     category: "Virtual Studio",
-    desc: "Aset game (Roblox), virtual maps, dan aksesoris 3D metaverse.",
+    desc: "Pengembang aset Roblox, peta virtual, dan pengalaman 3D interaktif.",
     icon: Cuboid,
-    gradient: "from-pink-500 to-rose-400",
-    logoColor: "text-pink-600"
+    gradient: "from-pink-500 to-rose-500",
+    textColor: "text-pink-600"
   },
   {
     id: "invitin",
     name: "Invitin",
-    category: "Lifestyle Platform",
-    desc: "Platform undangan pernikahan digital yang elegan.",
+    category: "Lifestyle",
+    desc: "Platform undangan pernikahan digital dengan estetika premium.",
     icon: HeartHandshake,
-    gradient: "from-orange-400 to-amber-300",
-    logoColor: "text-orange-600"
+    gradient: "from-orange-500 to-amber-500",
+    textColor: "text-orange-600"
   }
 ];
 
 const VenturesGrid = () => {
   return (
-    <section id="ventures" className="py-32 bg-white relative">
+    <section id="ventures" className="py-20 bg-white">
       <div className="container mx-auto px-6 max-w-7xl">
         
-        <div className="mb-20 flex flex-col md:flex-row justify-between items-end">
+        {/* Header */}
+        <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">Our Ventures</h2>
-            <p className="text-gray-500 max-w-lg text-lg">Pilar-pilar inovasi yang menopang ekosistem digital Weatso.</p>
+            <h2 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight">Our Ventures</h2>
+            <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"/>
           </div>
-          <div className="hidden md:block w-32 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-2"></div>
+          <p className="text-gray-500 max-w-md text-right md:text-left">
+            Empat pilar utama yang menggerakkan ekosistem inovasi Weatso.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {ventures.map((venture, index) => (
             <motion.div
               key={venture.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group relative flex flex-col h-full bg-white rounded-[2rem] overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 cursor-pointer"
+              className="group relative flex flex-col h-[420px] bg-gray-50 rounded-3xl overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500"
             >
-              {/* IMAGE AREA (Top 50%) */}
-              <div className={`h-64 w-full bg-gradient-to-br ${venture.gradient} relative overflow-hidden`}>
-                {/* Overlay Noise/Texture biar mewah */}
-                <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+              {/* IMAGE AREA (60% Height) */}
+              <div className={`h-[60%] w-full bg-gradient-to-br ${venture.gradient} relative overflow-hidden`}>
+                {/* Mockup Image Placeholder - Ganti <div/> ini dengan <Image src="..." /> nanti */}
+                <div className="absolute inset-0 opacity-30 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
                 
-                {/* Hover Effect pada Gambar */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                
-                {/* LOGO DI KIRI BAWAH GAMBAR */}
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <venture.icon size={28} className={venture.logoColor} />
+                {/* LOGO DI KIRI BAWAH GAMBAR (Menggantikan Icon standar) */}
+                <div className="absolute bottom-4 left-4">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                    <venture.icon size={24} className={venture.textColor} />
+                  </div>
                 </div>
 
-                {/* Arrow Icon di Kanan Atas */}
-                <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                {/* Arrow Button (Hover Only) */}
+                <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                   <ArrowUpRight size={20} />
                 </div>
               </div>
 
-              {/* TEXT AREA (Bottom) */}
-              <div className="p-8 flex flex-col flex-grow">
-                <span className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
+              {/* CONTENT AREA */}
+              <div className="p-6 flex flex-col flex-grow bg-white">
+                <span className={`text-xs font-bold uppercase tracking-wider mb-2 ${venture.textColor}`}>
                   {venture.category}
                 </span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
                   {venture.name}
                 </h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
+                <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">
                   {venture.desc}
                 </p>
-                
-                <div className="mt-auto pt-4 border-t border-gray-50">
-                  <span className="text-xs font-semibold text-gray-900 flex items-center gap-2 group-hover:gap-3 transition-all">
-                    Visit Website <ArrowUpRight size={14} />
-                  </span>
-                </div>
               </div>
             </motion.div>
           ))}

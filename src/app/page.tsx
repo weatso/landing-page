@@ -24,7 +24,7 @@ export default function Home() {
       <VisualStream />
 
       {/* 5. CTA / FAQ Replacement (Simple & Clean) */}
-      <section id="contact" className="py-32 bg-white text-center relative overflow-hidden">
+      <section id="contact" className="py-16 bg-[#F9F9F7] overflow-hidden border-t border-gray-200">
         {/* Dekorasi Glow Halus */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-50/50 to-purple-50/50 rounded-full blur-[100px] -z-10 pointer-events-none" />
         

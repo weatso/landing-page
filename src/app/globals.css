@@ -7,20 +7,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Putih Mutlak */
-    --foreground: 222.2 84% 4.9%; /* Hampir Hitam */
+    --background: 0 0% 100%;
+    /* Putih Mutlak */
+    --foreground: 222.2 84% 4.9%;
+    /* Hampir Hitam */
   }
 
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
-  html.lenis, html.lenis body {
+
+  html.lenis,
+  html.lenis body {
     height: auto;
   }
-  
+
   .lenis.lenis-smooth {
-    scroll-behavior: auto !important; /* Matikan native smooth scroll agar Lenis bekerja */
+    scroll-behavior: auto !important;
+    /* Matikan native smooth scroll agar Lenis bekerja */
   }
 
   .lenis.lenis-smooth [data-lenis-prevent] {
@@ -37,32 +42,54 @@
 }
 
 @layer utilities {
+
   /* Gradasi Khas Weatso: Biru ke Ungu */
   .bg-gradient-weatso {
     @apply bg-gradient-to-r from-blue-600 to-purple-600;
   }
-  
+
   .text-gradient-weatso {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600;
+  }
+
+  /* Utility untuk 3D Perspective Container */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .perspective-container {
+    transform-style: preserve-3d;
   }
 
   /* Animasi Orbit */
   .orbit-container {
     animation: orbit-rotate 40s linear infinite;
   }
-  
+
   .orbit-item {
     animation: orbit-counter-rotate 40s linear infinite;
   }
 
   @keyframes orbit-rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @keyframes orbit-counter-rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(-360deg); } /* Menjaga icon tetap tegak */
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(-360deg);
+    }
+
+    /* Menjaga icon tetap tegak */
   }
 
   /* Border halus dengan gradasi saat hover */
@@ -71,19 +98,20 @@
     background: white;
     z-index: 1;
   }
-  
+
   .border-gradient-hover::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: inherit; 
-    padding: 2px; /* Ketebalan border */
-    background: linear-gradient(to right, #2563EB, #9333EA); 
-    -webkit-mask: 
-       linear-gradient(#fff 0 0) content-box, 
-       linear-gradient(#fff 0 0);
+    border-radius: inherit;
+    padding: 2px;
+    /* Ketebalan border */
+    background: linear-gradient(to right, #2563EB, #9333EA);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-            mask-composite: exclude;
+    mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -93,4 +121,3 @@
     opacity: 1;
   }
 }
-

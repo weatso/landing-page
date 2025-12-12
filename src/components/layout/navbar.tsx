@@ -29,46 +29,47 @@ export default function Navbar() {
   }
 
   const navLinks = [
+    { name: "Home", href: "#home" },
+    { name: "Tech Stack", href: "#tech" },
     { name: "Our Ventures", href: "#ventures" },
-    { name: "Tech Stack", href: "#tech" }, // Ditambahkan agar lengkap
-    { name: "Showcase", href: "#showcase" }, // Visual Stream
-    { name: "Contact", href: "#contact" },
+    { name: "Showcase", href: "#showcase" },
   ];
 
   return (
     <motion.nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 px-6 md:px-12",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 md:px-12",
         isScrolled 
-          ? "bg-white/80 backdrop-blur-lg border-b border-gray-100 py-4 shadow-sm" 
-          : "bg-transparent"
+          ? "bg-white/60 backdrop-blur-xl border-b border-gray-100 shadow-sm py-3" 
+          : "bg-transparent py-5"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="font-bold text-2xl tracking-tighter text-gray-900 group z-50">
+        {/* LOGO */}
+        <Link href="/" className="font-bold text-2xl tracking-tighter text-gray-900 group relative z-50">
           WEATSO
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 group-hover:scale-125 inline-block transition-transform">.</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 group-hover:scale-150 inline-block transition-transform duration-300">.</span>
         </Link>
 
-        {/* Desktop Menu */}
+        {/* DESKTOP MENU */}
         <div className="hidden md:flex gap-8 items-center text-sm font-medium text-gray-600">
           {navLinks.map((link) => (
             <a 
               key={link.name} 
               href={link.href}
               onClick={(e) => handleScroll(e, link.href)}
-              className="hover:text-blue-600 transition-colors relative group"
+              className="hover:text-blue-600 transition-colors relative group py-2"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
           
           <a 
             href="mailto:contact@weatso.com"
-            className="px-6 py-2.5 rounded-full bg-gray-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-blue-500/30"
+            className="px-6 py-2.5 rounded-full bg-gray-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-0.5"
           >
-            Partner With Us
+            Contact
           </a>
         </div>
       </div>
