@@ -4,6 +4,7 @@ import VenturesGrid from "@/components/sections/VenturesGrid";
 import TechStack from "@/components/sections/TechStack"; 
 import VisualStream from "@/components/sections/VisualStream";
 import React from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function Home() {
   return (
