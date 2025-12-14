@@ -106,7 +106,7 @@ const HeroSection: React.FC = () => {
       </div>
 
       {/* AREA ORBIT 3D */}
-      <div className="w-full md:w-7/12 h-[600px] flex items-center justify-center relative mt-10 md:mt-0">
+      <div className="w-full md:w-7/12 h-[350px] md:h-[500px] flex items-center justify-center relative mt-4 md:mt-0 md:-mr-20 scale-[0.55] sm:scale-75 md:scale-100 origin-center transition-transform duration-500">
         
         {/* --- PUSAT ORBIT (WEATSO LOGO) --- */}
         {/* Layer diset ke z-20. Jadi item orbit akan berada di z-10 (belakang) atau z-30 (depan) */}
@@ -129,32 +129,11 @@ const HeroSection: React.FC = () => {
         {/* Container Item Orbit */}
         {/* Transform rotate disamakan dengan garis lintasan agar icon mengikuti garis */}
         <div className="absolute w-[520px] h-[140px] transform -rotate-6 z-30 pointer-events-none">
-          
-          {/* Item 1: Service (Mulai di 90 derajat / Depan) */}
-          <OrbitItem 
-            icon={Code2} color="text-blue-600" label="Weatso Service" 
-            progress={smoothAngle} offset={90} 
-          />
-
-          {/* Item 2: Developer (Mulai di 180 derajat) */}
-          <OrbitItem 
-            icon={Monitor} color="text-purple-600" label="Weatso Developer" 
-            progress={smoothAngle} offset={180} 
-          />
-
-          {/* Item 3: CO-Labz (Mulai di 270 derajat / Belakang) */}
-          <OrbitItem 
-            icon={Cuboid} color="text-pink-600" label="CO-Labz" 
-            progress={smoothAngle} offset={270} 
-          />
-
-          {/* Item 4: Invitin (Mulai di 0/360 derajat) */}
-          <OrbitItem 
-            icon={HeartHandshake} color="text-rose-600" label="Invitin" 
-            progress={smoothAngle} offset={0} 
-          />
-
-        </div>
+    <OrbitItem icon={Code2} color="text-blue-600" label="Weatso Service" progress={smoothAngle} offset={90} />
+    <OrbitItem icon={Monitor} color="text-purple-600" label="Weatso Developer" progress={smoothAngle} offset={180} />
+    <OrbitItem icon={Cuboid} color="text-pink-600" label="CO-Labz" progress={smoothAngle} offset={270} />
+    <OrbitItem icon={HeartHandshake} color="text-rose-600" label="Invitin" progress={smoothAngle} offset={0} />
+  </div>
       </div>
     </section>
   );

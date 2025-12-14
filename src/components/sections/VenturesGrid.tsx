@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { 
-  Code2, Monitor, Cuboid, HeartHandshake, ArrowUpRight 
+import {
+  Code2, Monitor, Cuboid, HeartHandshake, ArrowUpRight
 } from "lucide-react";
 
 // Ganti color dengan className text color yang sesuai
@@ -49,12 +49,12 @@ const VenturesGrid = () => {
   return (
     <section id="ventures" className="py-20 bg-white">
       <div className="container mx-auto px-6 max-w-7xl">
-        
+
         {/* Header */}
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
             <h2 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight">Our Ventures</h2>
-            <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"/>
+            <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full" />
           </div>
           <p className="text-gray-500 max-w-md text-right md:text-left">
             Empat pilar utama yang menggerakkan ekosistem inovasi Weatso.
@@ -75,9 +75,12 @@ const VenturesGrid = () => {
               {/* IMAGE AREA (60% Height) */}
               <div className={`h-[60%] w-full bg-gradient-to-br ${venture.gradient} relative overflow-hidden`}>
                 {/* Mockup Image Placeholder - Ganti <div/> ini dengan <Image src="..." /> nanti */}
-                <div className="absolute inset-0 opacity-30 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+                // GANTI DENGAN INI (Hapus request network, pakai CSS native):
+                <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+                />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                
+
                 {/* LOGO DI KIRI BAWAH GAMBAR (Menggantikan Icon standar) */}
                 <div className="absolute bottom-4 left-4">
                   <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">

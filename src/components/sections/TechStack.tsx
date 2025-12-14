@@ -74,7 +74,7 @@ const TechStack = () => {
           initial={{ x: "-50%" }}
           animate={{ x: 0 }}
           transition={{ repeat: Infinity, ease: "linear", duration: 45 }}
-          className="flex flex-nowrap gap-16 whitespace-nowrap items-center"
+          className="flex flex-nowrap gap-16 whitespace-nowrap items-center will-change-transform"
         >
           {[...row2, ...row2, ...row2].map((tech, index) => (
             <div key={`r2-${index}`} className="flex items-center gap-3 group cursor-default">
